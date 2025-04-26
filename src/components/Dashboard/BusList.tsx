@@ -33,19 +33,19 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
             className={`overflow-hidden transition-all duration-200 bg-gradient-to-br 
               ${isFull 
                 ? 'from-orange-100 via-orange-50 to-orange-100 border-orange-300' 
-                : 'from-nymphette-purpleLight via-white to-nymphette-purpleLight border-nymphette-purple'}`}
+                : 'from-blue-50 via-white to-blue-100 border-blue-300'}`}
           >
             <CardContent className="p-0">
               <div className="p-4 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
-                    <BusIcon className="h-5 w-5 mr-2 text-nymphette-purpleDark" />
+                    <BusIcon className="h-5 w-5 mr-2 text-blue-600" />
                     <h3 className="font-medium text-lg text-navy-800">{bus.label}</h3>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-sm text-gray-700">
                       <Users className="h-4 w-4 mr-1" />
-                      <span className={`${isFull ? 'text-orange-600 font-medium' : 'text-nymphette-purpleDark'}`}>
+                      <span className={`${isFull ? 'text-orange-600 font-medium' : 'text-blue-600'}`}>
                         {participantCount}/{bus.capacity}
                       </span>
                     </div>
@@ -63,7 +63,7 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
                 {/* Progress bar */}
                 <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
                   <div 
-                    className={`h-2 rounded-full ${isFull ? 'bg-orange-400' : 'bg-nymphette-purple'}`}
+                    className={`h-2 rounded-full ${isFull ? 'bg-orange-400' : 'bg-blue-500'}`}
                     style={{ width: `${Math.min(fillPercentage, 100)}%` }}
                   ></div>
                 </div>
@@ -78,7 +78,7 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
                   <Button 
                     onClick={() => onSelectBus(bus)}
                     variant="secondary" 
-                    className="w-full bg-nymphette-purpleLight text-nymphette-purpleDark hover:bg-nymphette-purple hover:text-white transition-colors"
+                    className="w-full bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700 transition-colors"
                   >
                     View Details
                   </Button>
