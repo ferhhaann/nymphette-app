@@ -11,7 +11,8 @@ import {
   FileUp,
   LogOut, 
   Plus,
-  UserPlus
+  UserPlus,
+  Home
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -32,8 +33,7 @@ const Sidebar = () => {
   };
   
   return (
-    <aside className="w-20 md:w-64 bg-navy-900 border-r border-white/10 flex flex-col">
-      {/* Logo section */}
+    <aside className="w-20 md:w-72 bg-navy-900/95 backdrop-blur-xl border-r border-white/10 flex flex-col">
       <div className="flex flex-col items-center justify-center py-6 border-b border-white/10">
         <img 
           src="/lovable-uploads/2b1e0337-a71d-4cec-bfa1-a8ca30806181.png" 
@@ -45,20 +45,19 @@ const Sidebar = () => {
         </h1>
       </div>
       
-      {/* Navigation links */}
-      <nav className="flex-1 py-6 px-2 md:px-4 space-y-2">
+      <nav className="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
         <Button
           variant={activeView === 'dashboard' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'dashboard' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'dashboard' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('dashboard')}
         >
-          <Bus className="h-5 w-5 md:mr-2" />
+          <Home className="h-5 w-5 md:mr-2" />
           <span className="hidden md:inline">Dashboard</span>
         </Button>
         
         <Button
           variant={activeView === 'busAssignment' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'busAssignment' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'busAssignment' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('busAssignment')}
         >
           <Users className="h-5 w-5 md:mr-2" />
@@ -67,7 +66,7 @@ const Sidebar = () => {
         
         <Button
           variant={activeView === 'etaTracker' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'etaTracker' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'etaTracker' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('etaTracker')}
         >
           <Clock className="h-5 w-5 md:mr-2" />
@@ -76,7 +75,7 @@ const Sidebar = () => {
         
         <Button
           variant={activeView === 'destination' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'destination' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'destination' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('destination')}
         >
           <Map className="h-5 w-5 md:mr-2" />
@@ -85,7 +84,7 @@ const Sidebar = () => {
         
         <Button
           variant={activeView === 'notifications' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'notifications' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'notifications' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('notifications')}
         >
           <Bell className="h-5 w-5 md:mr-2" />
@@ -94,7 +93,7 @@ const Sidebar = () => {
         
         <Button
           variant={activeView === 'addBus' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'addBus' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'addBus' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('addBus')}
         >
           <Plus className="h-5 w-5 md:mr-2" />
@@ -103,18 +102,17 @@ const Sidebar = () => {
         
         <Button
           variant={activeView === 'bulkUpload' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'bulkUpload' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+          className={`w-full justify-start ${activeView === 'bulkUpload' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
           onClick={() => handleSetView('bulkUpload')}
         >
           <FileUp className="h-5 w-5 md:mr-2" />
           <span className="hidden md:inline">Bulk Upload</span>
         </Button>
         
-        {/* Only show user management for super_admin */}
         {userRole === 'super_admin' && (
           <Button
             variant={activeView === 'userManagement' ? 'default' : 'ghost'} 
-            className={`w-full justify-start ${activeView === 'userManagement' ? 'bg-nymphette-purple text-white' : 'text-gray-300 hover:text-white'}`}
+            className={`w-full justify-start ${activeView === 'userManagement' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
             onClick={() => handleSetView('userManagement')}
           >
             <UserPlus className="h-5 w-5 md:mr-2" />
@@ -123,7 +121,6 @@ const Sidebar = () => {
         )}
       </nav>
       
-      {/* User info and logout */}
       <div className="p-4 border-t border-white/10">
         <div className="hidden md:block text-xs text-gray-400 mb-2">
           Logged in as: {user?.email}
