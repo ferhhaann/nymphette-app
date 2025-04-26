@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Card, 
@@ -39,7 +38,6 @@ const BusAssignmentModule: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [busParticipants, setBusParticipants] = useState<Participant[]>([]);
   
-  // Update participants list when selected bus changes
   useEffect(() => {
     if (selectedBus) {
       setBusParticipants(getParticipantsByBus(selectedBus.id));
@@ -48,7 +46,6 @@ const BusAssignmentModule: React.FC = () => {
     }
   }, [selectedBus, getParticipantsByBus]);
   
-  // Focus input on mount
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -61,7 +58,6 @@ const BusAssignmentModule: React.FC = () => {
     const participant = searchParticipant(searchTerm);
     setScannedParticipant(participant);
     
-    // Auto-clear search term
     setTimeout(() => {
       setSearchTerm('');
       if (inputRef.current) {
@@ -86,16 +82,13 @@ const BusAssignmentModule: React.FC = () => {
     const success = assignParticipant(scannedParticipant.id, selectedBus.id);
     
     if (success) {
-      // Update the local bus participants list
       setBusParticipants(getParticipantsByBus(selectedBus.id));
-      // Clear the scanned participant
       setScannedParticipant(null);
     }
   };
   
   const handleRemove = (participant: Participant) => {
     removeParticipantFromBus(participant.id);
-    // Update the local bus participants list
     if (selectedBus) {
       setBusParticipants(getParticipantsByBus(selectedBus.id));
     }
@@ -111,16 +104,16 @@ const BusAssignmentModule: React.FC = () => {
     <div className="container mx-auto p-4 max-w-4xl">
       <Button 
         variant="ghost" 
-        className="mb-4"
+        className="mb-6 hover:bg-blue-50"
         onClick={() => setActiveView('dashboard')}
       >
         <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
       </Button>
       
-      <Card className="mb-6">
+      <Card className="mb-6 border-blue-100 bg-gradient-to-br from-white to-blue-50">
         <CardHeader>
-          <CardTitle>Bus Assignment</CardTitle>
-          <CardDescription>Assign participants to buses</CardDescription>
+          <CardTitle className="text-2xl text-navy-800">Bus Assignment</CardTitle>
+          <CardDescription className="text-gray-600">Manage participant assignments to buses</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col space-y-4">
@@ -133,7 +126,7 @@ const BusAssignmentModule: React.FC = () => {
                   setSelectedBus(bus || null);
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full bg-white border-blue-200 hover:border-blue-300">
                   <SelectValue placeholder="Select a bus" />
                 </SelectTrigger>
                 <SelectContent>
@@ -150,11 +143,12 @@ const BusAssignmentModule: React.FC = () => {
               <div className="flex flex-col space-y-2">
                 <div className="flex justify-between items-center">
                   <label className="block text-sm font-medium text-gray-700">
-                    Participant ID / Name / Phone
+                    Search Participant
                   </label>
                   <Button 
                     variant="outline" 
                     size="sm"
+                    className="border-blue-200 hover:bg-blue-50"
                     onClick={() => setShowScanner(true)}
                   >
                     Use QR Scanner
@@ -166,10 +160,13 @@ const BusAssignmentModule: React.FC = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Enter participant info"
-                    className="flex-1"
+                    placeholder="Enter ID, name or phone"
+                    className="flex-1 border-blue-200 focus:border-blue-400"
                   />
-                  <Button onClick={handleSearch} type="button">
+                  <Button 
+                    onClick={handleSearch}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
                     <Search className="h-4 w-4 mr-2" /> Search
                   </Button>
                 </div>
@@ -183,6 +180,7 @@ const BusAssignmentModule: React.FC = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
+                    className="border-blue-200 hover:bg-blue-50"
                     onClick={() => setShowScanner(false)}
                   >
                     Manual Entry
@@ -194,11 +192,11 @@ const BusAssignmentModule: React.FC = () => {
             
             {scannedParticipant && (
               <div className="mt-4">
-                <div className="bg-gray-50 p-4 rounded-md border">
-                  <div className="font-medium">{scannedParticipant.name}</div>
+                <div className="bg-white p-4 rounded-md border border-blue-100 shadow-sm">
+                  <div className="font-medium text-navy-800">{scannedParticipant.name}</div>
                   <div className="text-sm text-gray-600">ID: {scannedParticipant.id}</div>
                   <div className="text-sm text-gray-600">Phone: {scannedParticipant.phone}</div>
-                  <div className="text-sm text-gray-600 mt-1">
+                  <div className="text-sm mt-1">
                     {scannedParticipant.bus_id ? (
                       <div className="flex items-center text-amber-600">
                         <Users className="h-4 w-4 mr-1" />
@@ -213,7 +211,7 @@ const BusAssignmentModule: React.FC = () => {
                     <Button 
                       disabled={!selectedBus || (scannedParticipant.bus_id === selectedBus?.id)}
                       onClick={handleAssign}
-                      className="w-full bg-nymphette-purple hover:bg-nymphette-purpleDark"
+                      className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300"
                     >
                       <UserCheck className="h-4 w-4 mr-2" />
                       {scannedParticipant.bus_id ? 'Reassign to This Bus' : 'Assign to This Bus'}
@@ -227,10 +225,12 @@ const BusAssignmentModule: React.FC = () => {
       </Card>
       
       {selectedBus && (
-        <Card>
+        <Card className="border-blue-100">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Participants on {selectedBus.label}</CardTitle>
+              <CardTitle className="text-xl text-navy-800">
+                {selectedBus.label} Participants
+              </CardTitle>
               <CardDescription>
                 {busParticipants.length} / {selectedBus.capacity} participants assigned
               </CardDescription>
@@ -238,11 +238,11 @@ const BusAssignmentModule: React.FC = () => {
           </CardHeader>
           <CardContent>
             {busParticipants.length > 0 ? (
-              <div className="border rounded-md divide-y">
+              <div className="border border-blue-100 rounded-md divide-y divide-blue-100">
                 {busParticipants.map((participant) => (
-                  <div key={participant.id} className="flex items-center justify-between p-3">
+                  <div key={participant.id} className="flex items-center justify-between p-3 hover:bg-blue-50">
                     <div>
-                      <div className="font-medium">{participant.name}</div>
+                      <div className="font-medium text-navy-800">{participant.name}</div>
                       <div className="text-sm text-gray-600">ID: {participant.id}</div>
                       <div className="text-sm text-gray-600">Phone: {participant.phone}</div>
                     </div>
