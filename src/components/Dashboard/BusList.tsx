@@ -30,19 +30,22 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
         return (
           <Card 
             key={bus.id} 
-            className={`overflow-hidden transition-all duration-200 ${isFull ? 'border-orange-400' : 'hover:border-nymphette-purple'}`}
+            className={`overflow-hidden transition-all duration-200 bg-gradient-to-br 
+              ${isFull 
+                ? 'from-orange-100 via-orange-50 to-orange-100 border-orange-300' 
+                : 'from-nymphette-purpleLight via-white to-nymphette-purpleLight border-nymphette-purple'}`}
           >
             <CardContent className="p-0">
               <div className="p-4 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
-                    <BusIcon className="h-5 w-5 mr-2 text-nymphette-purple" />
-                    <h3 className="font-medium text-lg">{bus.label}</h3>
+                    <BusIcon className="h-5 w-5 mr-2 text-nymphette-purpleDark" />
+                    <h3 className="font-medium text-lg text-navy-800">{bus.label}</h3>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center text-sm text-gray-600">
+                    <div className="flex items-center text-sm text-gray-700">
                       <Users className="h-4 w-4 mr-1" />
-                      <span className={`${isFull ? 'text-orange-600 font-medium' : ''}`}>
+                      <span className={`${isFull ? 'text-orange-600 font-medium' : 'text-nymphette-purpleDark'}`}>
                         {participantCount}/{bus.capacity}
                       </span>
                     </div>
@@ -75,7 +78,7 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
                   <Button 
                     onClick={() => onSelectBus(bus)}
                     variant="secondary" 
-                    className="w-full bg-gray-100 hover:bg-nymphette-purpleLight"
+                    className="w-full bg-nymphette-purpleLight text-nymphette-purpleDark hover:bg-nymphette-purple hover:text-white transition-colors"
                   >
                     View Details
                   </Button>
