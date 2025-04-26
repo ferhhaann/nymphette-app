@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { Button } from '@/components/ui/button';
-import { Bus, Plus, Users, Map, Clock, Bell, FileUpload } from 'lucide-react';
+import { Bus, Plus, Users, Map, Clock, Bell, FileUp } from 'lucide-react';
 
 interface DashboardHeaderProps {
   onAssignClick: () => void;
@@ -74,7 +73,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           variant="outline"
           className="flex-1 border-nymphette-purple text-nymphette-purple hover:bg-nymphette-purpleLight hover:text-nymphette-purpleDark"
         >
-          <FileUpload className="h-4 w-4 mr-1" /> Bulk Upload
+          <FileUp className="h-4 w-4 mr-1" /> Bulk Upload
         </Button>
       </div>
     </div>
