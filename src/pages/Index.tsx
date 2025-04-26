@@ -49,7 +49,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-navy-900 via-navy-800 to-navy-900">
       <div className="container mx-auto p-4">
         {activeView === 'dashboard' && (
           <>
@@ -61,7 +61,9 @@ const Index = () => {
               onNotificationsClick={handleNotificationsClick}
               onBulkUploadClick={handleBulkUploadClick}
             />
-            <BusList onSelectBus={handleSelectBus} />
+            <div className="backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 p-4">
+              <BusList onSelectBus={handleSelectBus} />
+            </div>
           </>
         )}
         
