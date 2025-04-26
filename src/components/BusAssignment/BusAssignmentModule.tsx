@@ -19,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { ArrowLeft, Search, UserCheck, UserMinus, Users } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 import { Participant } from '../../data/mockData';
+import QRScanner from '../QRScanner/QRScanner';
 
 const BusAssignmentModule: React.FC = () => {
   const { 
@@ -34,6 +35,7 @@ const BusAssignmentModule: React.FC = () => {
   
   const [searchTerm, setSearchTerm] = useState('');
   const [scannedParticipant, setScannedParticipant] = useState<Participant | null>(null);
+  const [showScanner, setShowScanner] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [busParticipants, setBusParticipants] = useState<Participant[]>([]);
   
@@ -66,6 +68,16 @@ const BusAssignmentModule: React.FC = () => {
         inputRef.current.focus();
       }
     }, 100);
+  };
+  
+  const handleQRScan = (data: string) => {
+    const participant = searchParticipant(data);
+    setScannedParticipant(participant);
+    setShowScanner(false);
+  };
+  
+  const handleQRError = (error: Error) => {
+    console.error("QR Scan Error:", error);
   };
   
   const handleAssign = () => {
@@ -134,24 +146,51 @@ const BusAssignmentModule: React.FC = () => {
               </Select>
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Participant ID / Name / Phone
-              </label>
-              <div className="flex space-x-2">
-                <Input
-                  ref={inputRef}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Scan or enter participant info"
-                  className="flex-1"
-                />
-                <Button onClick={handleSearch} type="button">
-                  <Search className="h-4 w-4 mr-2" /> Search
-                </Button>
+            {selectedBus && !showScanner && (
+              <div className="flex flex-col space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Participant ID / Name / Phone
+                  </label>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setShowScanner(true)}
+                  >
+                    Use QR Scanner
+                  </Button>
+                </div>
+                <div className="flex space-x-2">
+                  <Input
+                    ref={inputRef}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Enter participant info"
+                    className="flex-1"
+                  />
+                  <Button onClick={handleSearch} type="button">
+                    <Search className="h-4 w-4 mr-2" /> Search
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
+            
+            {selectedBus && showScanner && (
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="block text-sm font-medium text-gray-700">QR Scanner</label>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setShowScanner(false)}
+                  >
+                    Manual Entry
+                  </Button>
+                </div>
+                <QRScanner onScan={handleQRScan} onError={handleQRError} />
+              </div>
+            )}
             
             {scannedParticipant && (
               <div className="mt-4">

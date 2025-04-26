@@ -48,6 +48,12 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
                   ></div>
                 </div>
                 
+                {bus.manager_name && (
+                  <div className="mb-3 text-sm text-gray-600">
+                    Manager: {bus.manager_name}
+                  </div>
+                )}
+                
                 <div className="mt-auto">
                   <Button 
                     onClick={() => onSelectBus(bus)}

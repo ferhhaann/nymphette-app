@@ -2,18 +2,20 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { Button } from '@/components/ui/button';
-import { Bus } from 'lucide-react';
+import { Bus, Plus, Users, Map, Clock } from 'lucide-react';
 
 interface DashboardHeaderProps {
   onAssignClick: () => void;
   onETAClick: () => void;
   onInfoClick: () => void;
+  onAddBusClick: () => void;
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ 
   onAssignClick, 
   onETAClick, 
-  onInfoClick 
+  onInfoClick,
+  onAddBusClick
 }) => {
   return (
     <div className="flex flex-col space-y-4 md:space-y-6 mb-6">
@@ -29,25 +31,32 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       
       <div className="flex flex-col sm:flex-row gap-3">
         <Button 
+          onClick={onAddBusClick}
+          variant="default"
+          className="flex-1 bg-green-500 hover:bg-green-600"
+        >
+          <Plus className="h-4 w-4 mr-1" /> Add New Bus
+        </Button>
+        <Button 
           onClick={onAssignClick}
           variant="default"
           className="flex-1 bg-nymphette-purple hover:bg-nymphette-purpleDark"
         >
-          Assign Participants
+          <Users className="h-4 w-4 mr-1" /> Assign Participants
         </Button>
         <Button 
           onClick={onETAClick}
           variant="outline"
           className="flex-1 border-nymphette-purple text-nymphette-purple hover:bg-nymphette-purpleLight hover:text-nymphette-purpleDark"
         >
-          View ETA
+          <Clock className="h-4 w-4 mr-1" /> View ETA
         </Button>
         <Button 
           onClick={onInfoClick}
           variant="outline"
           className="flex-1 border-nymphette-purple text-nymphette-purple hover:bg-nymphette-purpleLight hover:text-nymphette-purpleDark"
         >
-          View Place Info
+          <Map className="h-4 w-4 mr-1" /> Manage Destinations
         </Button>
       </div>
     </div>

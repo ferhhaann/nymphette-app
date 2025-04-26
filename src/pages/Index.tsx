@@ -6,6 +6,7 @@ import BusList from '../components/Dashboard/BusList';
 import BusAssignmentModule from '../components/BusAssignment/BusAssignmentModule';
 import ETATrackerModule from '../components/ETATracker/ETATrackerModule';
 import DestinationInfoPanel from '../components/DestinationInfo/DestinationInfoPanel';
+import AddBusForm from '../components/Bus/AddBusForm';
 import { Bus } from '../data/mockData';
 
 const Index = () => {
@@ -27,6 +28,10 @@ const Index = () => {
     setActiveView('destination');
   };
 
+  const handleAddBusClick = () => {
+    setActiveView('addBus');
+  };
+
   const handleSelectBus = (bus: Bus) => {
     setSelectedBus(bus);
     // Default to bus assignment view when selecting a bus from the dashboard
@@ -42,6 +47,7 @@ const Index = () => {
               onAssignClick={handleAssignClick}
               onETAClick={handleETAClick}
               onInfoClick={handleInfoClick}
+              onAddBusClick={handleAddBusClick}
             />
             <BusList onSelectBus={handleSelectBus} />
           </>
@@ -50,6 +56,7 @@ const Index = () => {
         {activeView === 'busAssignment' && <BusAssignmentModule />}
         {activeView === 'etaTracker' && <ETATrackerModule />}
         {activeView === 'destination' && <DestinationInfoPanel />}
+        {activeView === 'addBus' && <AddBusForm />}
       </div>
     </div>
   );

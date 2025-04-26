@@ -1,4 +1,3 @@
-
 // Mock data for the tour management system
 
 export interface Participant {
@@ -12,6 +11,7 @@ export interface Bus {
   id: string;
   label: string;
   capacity: number;
+  manager_name?: string | null;
 }
 
 export interface Location {
@@ -19,6 +19,8 @@ export interface Location {
   name: string;
   description: string;
   image_url?: string;
+  address?: string;
+  coordinates?: { lat: number; lng: number };
 }
 
 export interface Schedule {

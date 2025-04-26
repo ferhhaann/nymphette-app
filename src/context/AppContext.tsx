@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { 
   Bus, 
@@ -7,6 +6,7 @@ import {
   Schedule, 
   buses, 
   participants as initialParticipants,
+  locations,
   getParticipantsByBus, 
   getSchedulesByBus,
   getLocationById
@@ -16,10 +16,11 @@ import { toast } from 'sonner';
 interface AppContextType {
   buses: Bus[];
   participants: Participant[];
+  locations: Location[];
   selectedBus: Bus | null;
   selectedLocation: Location | null;
-  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination';
-  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination') => void;
+  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations';
+  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations') => void;
   setSelectedBus: (bus: Bus | null) => void;
   setSelectedLocation: (location: Location | null) => void;
   assignParticipant: (participantId: string, busId: string) => boolean;
@@ -29,16 +30,18 @@ interface AppContextType {
   updateDepartureTime: (busId: string, locationId: string, newTime: Date) => void;
   calculateETA: (busId: string, locationId: string, fromIndex: number) => Date | null;
   searchParticipant: (term: string) => Participant | null;
+  addBus: (label: string, capacity: number, managerName?: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations'>('dashboard');
   const [selectedBus, setSelectedBus] = useState<Bus | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
   const [scheduleData, setScheduleData] = useState<Schedule[]>([]);
+  const [busList, setBusList] = useState<Bus[]>(buses);
 
   const assignParticipant = (participantId: string, busId: string): boolean => {
     const participant = participants.find(p => p.id === participantId);
@@ -111,7 +114,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const searchParticipant = (term: string): Participant | null => {
-    // Search by ID (exact match) or name (partial match)
     const result = participants.find(
       p => p.id === term || 
       p.name.toLowerCase().includes(term.toLowerCase()) ||
@@ -121,10 +123,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return result || null;
   };
 
+  const addBus = (label: string, capacity: number, managerName?: string): void => {
+    const newId = (busList.length + 1).toString();
+    const newBus: Bus = {
+      id: newId,
+      label,
+      capacity,
+      manager_name: managerName || null
+    };
+    
+    setBusList(prev => [...prev, newBus]);
+    toast.success(`Bus ${label} added successfully`);
+  };
+
   return (
     <AppContext.Provider value={{
-      buses,
+      buses: busList,
       participants,
+      locations,
       selectedBus,
       selectedLocation,
       activeView,
@@ -137,7 +153,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       getSchedulesByBus,
       updateDepartureTime,
       calculateETA,
-      searchParticipant
+      searchParticipant,
+      addBus
     }}>
       {children}
     </AppContext.Provider>
