@@ -38,6 +38,10 @@ const Index = () => {
     setActiveView('notifications');
   };
 
+  const handleBulkUploadClick = () => {
+    setActiveView('bulkUpload');
+  };
+
   const handleSelectBus = (bus: Bus) => {
     setSelectedBus(bus);
     // Default to bus assignment view when selecting a bus from the dashboard
@@ -55,6 +59,7 @@ const Index = () => {
               onInfoClick={handleInfoClick}
               onAddBusClick={handleAddBusClick}
               onNotificationsClick={handleNotificationsClick}
+              onBulkUploadClick={handleBulkUploadClick}
             />
             <BusList onSelectBus={handleSelectBus} />
           </>

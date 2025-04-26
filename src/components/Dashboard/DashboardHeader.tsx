@@ -2,7 +2,7 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { Button } from '@/components/ui/button';
-import { Bus, Plus, Users, Map, Clock, Bell } from 'lucide-react';
+import { Bus, Plus, Users, Map, Clock, Bell, FileUpload } from 'lucide-react';
 
 interface DashboardHeaderProps {
   onAssignClick: () => void;
@@ -10,6 +10,7 @@ interface DashboardHeaderProps {
   onInfoClick: () => void;
   onAddBusClick: () => void;
   onNotificationsClick: () => void;
+  onBulkUploadClick: () => void;
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ 
@@ -17,7 +18,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onETAClick, 
   onInfoClick,
   onAddBusClick,
-  onNotificationsClick
+  onNotificationsClick,
+  onBulkUploadClick
 }) => {
   return (
     <div className="flex flex-col space-y-4 md:space-y-6 mb-6">
@@ -66,6 +68,13 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           className="flex-1 border-nymphette-purple text-nymphette-purple hover:bg-nymphette-purpleLight hover:text-nymphette-purpleDark"
         >
           <Map className="h-4 w-4 mr-1" /> Manage Destinations
+        </Button>
+        <Button 
+          onClick={onBulkUploadClick}
+          variant="outline"
+          className="flex-1 border-nymphette-purple text-nymphette-purple hover:bg-nymphette-purpleLight hover:text-nymphette-purpleDark"
+        >
+          <FileUpload className="h-4 w-4 mr-1" /> Bulk Upload
         </Button>
       </div>
     </div>

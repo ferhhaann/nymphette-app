@@ -19,8 +19,8 @@ interface AppContextType {
   locations: Location[];
   selectedBus: Bus | null;
   selectedLocation: Location | null;
-  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications';
-  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications') => void;
+  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload';
+  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload') => void;
   setSelectedBus: (bus: Bus | null) => void;
   setSelectedLocation: (location: Location | null) => void;
   assignParticipant: (participantId: string, busId: string) => boolean;
@@ -38,7 +38,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload'>('dashboard');
   const [selectedBus, setSelectedBus] = useState<Bus | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
