@@ -2,20 +2,22 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { Button } from '@/components/ui/button';
-import { Bus, Plus, Users, Map, Clock } from 'lucide-react';
+import { Bus, Plus, Users, Map, Clock, Bell } from 'lucide-react';
 
 interface DashboardHeaderProps {
   onAssignClick: () => void;
   onETAClick: () => void;
   onInfoClick: () => void;
   onAddBusClick: () => void;
+  onNotificationsClick: () => void;
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ 
   onAssignClick, 
   onETAClick, 
   onInfoClick,
-  onAddBusClick
+  onAddBusClick,
+  onNotificationsClick
 }) => {
   return (
     <div className="flex flex-col space-y-4 md:space-y-6 mb-6">
@@ -29,7 +31,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </div>
       </div>
       
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-wrap gap-3">
         <Button 
           onClick={onAddBusClick}
           variant="default"
@@ -43,6 +45,13 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           className="flex-1 bg-nymphette-purple hover:bg-nymphette-purpleDark"
         >
           <Users className="h-4 w-4 mr-1" /> Assign Participants
+        </Button>
+        <Button 
+          onClick={onNotificationsClick}
+          variant="default"
+          className="flex-1 bg-amber-500 hover:bg-amber-600"
+        >
+          <Bell className="h-4 w-4 mr-1" /> Notifications
         </Button>
         <Button 
           onClick={onETAClick}

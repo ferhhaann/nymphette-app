@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { 
   Bus, 
@@ -19,8 +20,8 @@ interface AppContextType {
   locations: Location[];
   selectedBus: Bus | null;
   selectedLocation: Location | null;
-  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations';
-  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations') => void;
+  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications';
+  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications') => void;
   setSelectedBus: (bus: Bus | null) => void;
   setSelectedLocation: (location: Location | null) => void;
   assignParticipant: (participantId: string, busId: string) => boolean;
@@ -31,12 +32,13 @@ interface AppContextType {
   calculateETA: (busId: string, locationId: string, fromIndex: number) => Date | null;
   searchParticipant: (term: string) => Participant | null;
   addBus: (label: string, capacity: number, managerName?: string) => void;
+  sendNotification: (participantIds: string[], message: string) => Promise<boolean>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications'>('dashboard');
   const [selectedBus, setSelectedBus] = useState<Bus | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
@@ -136,6 +138,27 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     toast.success(`Bus ${label} added successfully`);
   };
 
+  // New notification function
+  const sendNotification = async (participantIds: string[], message: string): Promise<boolean> => {
+    try {
+      // In a real application, this would call an SMS/messaging API
+      // like Twilio, MessageBird, etc.
+      
+      // For demonstration purposes, we'll just simulate a successful API call
+      console.log(`Sending notification to ${participantIds.length} participants`);
+      console.log('Message:', message);
+      console.log('Recipients:', participantIds.map(id => participants.find(p => p.id === id)?.name));
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      return true;
+    } catch (error) {
+      console.error('Error sending notification:', error);
+      return false;
+    }
+  };
+
   return (
     <AppContext.Provider value={{
       buses: busList,
@@ -154,7 +177,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       updateDepartureTime,
       calculateETA,
       searchParticipant,
-      addBus
+      addBus,
+      sendNotification
     }}>
       {children}
     </AppContext.Provider>
