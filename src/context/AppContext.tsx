@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { 
   Bus, 
@@ -33,6 +32,7 @@ interface AppContextType {
   searchParticipant: (term: string) => Participant | null;
   addBus: (label: string, capacity: number, managerName?: string) => void;
   sendNotification: (participantIds: string[], message: string) => Promise<boolean>;
+  deleteBus: (busId: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -138,18 +138,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     toast.success(`Bus ${label} added successfully`);
   };
 
-  // New notification function
   const sendNotification = async (participantIds: string[], message: string): Promise<boolean> => {
     try {
-      // In a real application, this would call an SMS/messaging API
-      // like Twilio, MessageBird, etc.
-      
-      // For demonstration purposes, we'll just simulate a successful API call
       console.log(`Sending notification to ${participantIds.length} participants`);
       console.log('Message:', message);
       console.log('Recipients:', participantIds.map(id => participants.find(p => p.id === id)?.name));
       
-      // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
       
       return true;
@@ -157,6 +151,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       console.error('Error sending notification:', error);
       return false;
     }
+  };
+
+  const deleteBus = (busId: string): void => {
+    setParticipants(prev => 
+      prev.map(p => p.bus_id === busId ? { ...p, bus_id: null } : p)
+    );
+    
+    setBusList(prev => prev.filter(b => b.id !== busId));
+    toast.success('Bus deleted successfully');
   };
 
   return (
@@ -178,7 +181,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       calculateETA,
       searchParticipant,
       addBus,
-      sendNotification
+      sendNotification,
+      deleteBus
     }}>
       {children}
     </AppContext.Provider>

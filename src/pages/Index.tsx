@@ -8,6 +8,7 @@ import ETATrackerModule from '../components/ETATracker/ETATrackerModule';
 import DestinationInfoPanel from '../components/DestinationInfo/DestinationInfoPanel';
 import AddBusForm from '../components/Bus/AddBusForm';
 import NotificationPanel from '../components/Notification/NotificationPanel';
+import BulkUploadForm from '../components/Participant/BulkUploadForm';
 import { Bus } from '../data/mockData';
 
 const Index = () => {
@@ -64,6 +65,7 @@ const Index = () => {
         {activeView === 'destination' && <DestinationInfoPanel />}
         {activeView === 'addBus' && <AddBusForm />}
         {activeView === 'notifications' && <NotificationPanel />}
+        {activeView === 'bulkUpload' && <BulkUploadForm />}
       </div>
     </div>
   );

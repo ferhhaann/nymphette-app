@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Bus } from '../../data/mockData';
-import { Bus as BusIcon, Users } from 'lucide-react';
+import { Bus as BusIcon, Users, Trash2 } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 
 interface BusListProps {
@@ -11,7 +11,14 @@ interface BusListProps {
 }
 
 const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
-  const { buses, getParticipantsByBus } = useAppContext();
+  const { buses, getParticipantsByBus, deleteBus } = useAppContext();
+
+  const handleDelete = (e: React.MouseEvent, bus: Bus) => {
+    e.stopPropagation();
+    if (window.confirm(`Are you sure you want to delete ${bus.label}?`)) {
+      deleteBus(bus.id);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -32,11 +39,21 @@ const BusList: React.FC<BusListProps> = ({ onSelectBus }) => {
                     <BusIcon className="h-5 w-5 mr-2 text-nymphette-purple" />
                     <h3 className="font-medium text-lg">{bus.label}</h3>
                   </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Users className="h-4 w-4 mr-1" />
-                    <span className={`${isFull ? 'text-orange-600 font-medium' : ''}`}>
-                      {participantCount}/{bus.capacity}
-                    </span>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Users className="h-4 w-4 mr-1" />
+                      <span className={`${isFull ? 'text-orange-600 font-medium' : ''}`}>
+                        {participantCount}/{bus.capacity}
+                      </span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      onClick={(e) => handleDelete(e, bus)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
                 
