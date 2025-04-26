@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
@@ -12,7 +11,8 @@ import {
   LogOut, 
   Plus,
   UserPlus,
-  Home
+  Home,
+  Route
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -111,12 +111,12 @@ const Sidebar = () => {
         
         {userRole === 'super_admin' && (
           <Button
-            variant={activeView === 'userManagement' ? 'default' : 'ghost'} 
-            className={`w-full justify-start ${activeView === 'userManagement' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-            onClick={() => handleSetView('userManagement')}
+            variant={activeView === 'tourManagement' ? 'default' : 'ghost'} 
+            className={`w-full justify-start ${activeView === 'tourManagement' ? 'bg-gradient-to-r from-blue-500/80 to-blue-500/80 hover:from-blue-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+            onClick={() => handleSetView('tourManagement')}
           >
-            <UserPlus className="h-5 w-5 md:mr-2" />
-            <span className="hidden md:inline">Manage Users</span>
+            <Route className="h-5 w-5 md:mr-2" />
+            <span className="hidden md:inline">Tour Management</span>
           </Button>
         )}
       </nav>

@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { 
   Bus, 
@@ -20,8 +19,8 @@ interface AppContextType {
   locations: Location[];
   selectedBus: Bus | null;
   selectedLocation: Location | null;
-  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload' | 'userManagement';
-  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload' | 'userManagement') => void;
+  activeView: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload' | 'userManagement' | 'tourManagement';
+  setActiveView: (view: 'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload' | 'userManagement' | 'tourManagement') => void;
   setSelectedBus: (bus: Bus | null) => void;
   setSelectedLocation: (location: Location | null) => void;
   assignParticipant: (participantId: string, busId: string) => boolean;
@@ -39,7 +38,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload' | 'userManagement'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'busAssignment' | 'etaTracker' | 'destination' | 'addBus' | 'manageDestinations' | 'notifications' | 'bulkUpload' | 'userManagement' | 'tourManagement'>('dashboard');
   const [selectedBus, setSelectedBus] = useState<Bus | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [participants, setParticipants] = useState<Participant[]>(initialParticipants);

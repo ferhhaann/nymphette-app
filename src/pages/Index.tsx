@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +12,7 @@ import UserManagementPanel from '../components/UserManagement/UserManagementPane
 import Sidebar from '../components/Dashboard/Sidebar';
 import { Bus } from '../data/mockData';
 import { useAuth } from '../context/AuthContext';
+import TourManagement from '../components/Tour/TourManagement';
 
 const Index = () => {
   const { 
@@ -64,6 +64,7 @@ const Index = () => {
           {activeView === 'notifications' && <NotificationPanel />}
           {activeView === 'bulkUpload' && <BulkUploadForm />}
           {activeView === 'userManagement' && <UserManagementPanel />}
+          {activeView === 'tourManagement' && <TourManagement />}
         </div>
       </div>
     </div>
