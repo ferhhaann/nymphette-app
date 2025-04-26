@@ -1,11 +1,55 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import { useAppContext } from '../context/AppContext';
+import DashboardHeader from '../components/Dashboard/DashboardHeader';
+import BusList from '../components/Dashboard/BusList';
+import BusAssignmentModule from '../components/BusAssignment/BusAssignmentModule';
+import ETATrackerModule from '../components/ETATracker/ETATrackerModule';
+import DestinationInfoPanel from '../components/DestinationInfo/DestinationInfoPanel';
+import { Bus } from '../data/mockData';
 
 const Index = () => {
+  const { 
+    activeView, 
+    setActiveView, 
+    setSelectedBus 
+  } = useAppContext();
+
+  const handleAssignClick = () => {
+    setActiveView('busAssignment');
+  };
+
+  const handleETAClick = () => {
+    setActiveView('etaTracker');
+  };
+
+  const handleInfoClick = () => {
+    setActiveView('destination');
+  };
+
+  const handleSelectBus = (bus: Bus) => {
+    setSelectedBus(bus);
+    // Default to bus assignment view when selecting a bus from the dashboard
+    setActiveView('busAssignment');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto p-4">
+        {activeView === 'dashboard' && (
+          <>
+            <DashboardHeader 
+              onAssignClick={handleAssignClick}
+              onETAClick={handleETAClick}
+              onInfoClick={handleInfoClick}
+            />
+            <BusList onSelectBus={handleSelectBus} />
+          </>
+        )}
+        
+        {activeView === 'busAssignment' && <BusAssignmentModule />}
+        {activeView === 'etaTracker' && <ETATrackerModule />}
+        {activeView === 'destination' && <DestinationInfoPanel />}
       </div>
     </div>
   );
