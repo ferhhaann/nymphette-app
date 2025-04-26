@@ -37,20 +37,20 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-navy-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 flex items-center justify-center">
         <div className="animate-pulse text-blue-200 text-xl">Loading dashboard...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900 text-white overflow-hidden">
+    <div className="flex h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 text-white overflow-hidden">
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         <div className="container mx-auto p-6">
           {activeView === 'dashboard' && (
-            <div className="backdrop-blur-lg bg-white/5 rounded-xl border border-white/10 p-6 shadow-xl">
-              <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-100 via-purple-200 to-blue-100 bg-clip-text text-transparent">
+            <div className="backdrop-blur-xl bg-white/5 rounded-xl border border-white/10 p-6 shadow-2xl">
+              <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-violet-200 via-purple-200 to-violet-200 bg-clip-text text-transparent">
                 Tour Dashboard
               </h1>
               <BusList onSelectBus={handleSelectBus} />
