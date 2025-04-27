@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import { AppProvider } from "./context/AppContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import UserManagementPanel from "./components/UserManagement/UserManagementPanel";
+import EnhancedTourManagement from "./components/Tour/EnhancedTourManagement";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,11 @@ const AppContent = () => {
       <Route path="/" element={
         <ProtectedRoute>
           <Index />
+        </ProtectedRoute>
+      } />
+      <Route path="/itinerary" element={
+        <ProtectedRoute>
+          <EnhancedTourManagement />
         </ProtectedRoute>
       } />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

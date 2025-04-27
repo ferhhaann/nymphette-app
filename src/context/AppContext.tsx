@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { 
   Bus, 
@@ -13,7 +12,7 @@ import {
   getLocationById
 } from '../data/mockData';
 import { toast } from 'sonner';
-import { Tour, TourManager } from '@/types/tour';
+import { Tour, TourManager, Flight, Hotel, TravelNote } from '@/types/tour';
 
 interface AppContextType {
   buses: Bus[];
@@ -35,6 +34,10 @@ interface AppContextType {
   addBus: (label: string, capacity: number, managerName?: string) => void;
   sendNotification: (participantIds: string[], message: string) => Promise<boolean>;
   deleteBus: (busId: string) => void;
+  tours: Tour[];
+  saveTour: (tour: Tour) => void;
+  deleteTour: (tourId: string) => void;
+  getTourById: (tourId: string) => Tour | undefined;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -46,6 +49,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
   const [scheduleData, setScheduleData] = useState<Schedule[]>([]);
   const [busList, setBusList] = useState<Bus[]>(buses);
+  const [tours, setTours] = useState<Tour[]>([]);
 
   const assignParticipant = (participantId: string, busId: string): boolean => {
     const participant = participants.find(p => p.id === participantId);
@@ -164,6 +168,29 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     toast.success('Bus deleted successfully');
   };
 
+  const saveTour = (tour: Tour): void => {
+    if (tours.some(t => t.id === tour.id)) {
+      setTours(tours.map(t => t.id === tour.id ? tour : t));
+      toast.success('Tour itinerary updated successfully');
+    } else {
+      const newTour = {
+        ...tour,
+        id: tour.id || (tours.length + 1).toString()
+      };
+      setTours([...tours, newTour]);
+      toast.success('Tour itinerary created successfully');
+    }
+  };
+
+  const deleteTour = (tourId: string): void => {
+    setTours(tours.filter(tour => tour.id !== tourId));
+    toast.success('Tour itinerary deleted successfully');
+  };
+
+  const getTourById = (tourId: string): Tour | undefined => {
+    return tours.find(tour => tour.id === tourId);
+  };
+
   return (
     <AppContext.Provider value={{
       buses: busList,
@@ -184,7 +211,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       searchParticipant,
       addBus,
       sendNotification,
-      deleteBus
+      deleteBus,
+      tours,
+      saveTour,
+      deleteTour,
+      getTourById
     }}>
       {children}
     </AppContext.Provider>

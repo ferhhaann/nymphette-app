@@ -1,154 +1,201 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  Bus, 
-  Users, 
-  Map, 
-  Clock, 
-  Bell, 
-  FileUp,
-  LogOut, 
-  Plus,
-  UserPlus,
-  Home,
+import { cn } from '@/lib/utils';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  Bus,
+  Clock,
+  MapPin,
+  PlusCircle,
+  Bell,
+  Upload,
+  Users,
   Route,
-  Calendar
+  CalendarDays,
+  LogOut
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 const Sidebar = () => {
   const { activeView, setActiveView } = useAppContext();
-  const { user, logout, userRole } = useAuth();
-  
-  const handleSetView = (view: string) => {
-    setActiveView(view as any);
+  const { logout, userRole } = useAuth();
+  const navigate = useNavigate();
+
+  const handleNavClick = (view: typeof activeView) => {
+    setActiveView(view);
   };
 
   const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error('Logout failed', error);
-    }
+    await logout();
+    navigate('/login');
   };
-  
+
   return (
-    <aside className="w-20 md:w-72 bg-navy-900/95 backdrop-blur-xl border-r border-white/10 flex flex-col">
-      <div className="flex flex-col items-center justify-center py-6 border-b border-white/10">
-        <img 
-          src="/lovable-uploads/2b1e0337-a71d-4cec-bfa1-a8ca30806181.png" 
-          alt="Tour Management System Logo" 
-          className="h-12 w-12 md:h-16 md:w-16"
-        />
-        <h1 className="hidden md:block mt-3 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-purple-300">
-          Tour Management
-        </h1>
+    <div className="w-16 md:w-64 transition-all duration-300 bg-navy-950/70 backdrop-blur-lg border-r border-white/10 flex flex-col">
+      {/* Logo */}
+      <div className="flex items-center justify-center md:justify-start p-4 h-16 border-b border-white/10">
+        <Route className="h-10 w-10 text-blue-400" />
+        <span className="hidden md:block text-xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent ml-2">
+          TourMaster
+        </span>
       </div>
-      
-      <nav className="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
-        <Button
-          variant={activeView === 'dashboard' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'dashboard' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('dashboard')}
-        >
-          <Home className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Dashboard</span>
-        </Button>
-        
-        <Button
-          variant={activeView === 'busAssignment' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'busAssignment' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('busAssignment')}
-        >
-          <Users className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Assign Participants</span>
-        </Button>
-        
-        <Button
-          variant={activeView === 'etaTracker' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'etaTracker' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('etaTracker')}
-        >
-          <Clock className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">ETA Tracker</span>
-        </Button>
-        
-        <Button
-          variant={activeView === 'destination' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'destination' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('destination')}
-        >
-          <Map className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Destinations</span>
-        </Button>
-        
-        <Button
-          variant={activeView === 'notifications' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'notifications' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('notifications')}
-        >
-          <Bell className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Notifications</span>
-        </Button>
-        
-        <Button
-          variant={activeView === 'addBus' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'addBus' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('addBus')}
-        >
-          <Plus className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Add Bus</span>
-        </Button>
-        
-        <Button
-          variant={activeView === 'bulkUpload' ? 'default' : 'ghost'} 
-          className={`w-full justify-start ${activeView === 'bulkUpload' ? 'bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-          onClick={() => handleSetView('bulkUpload')}
-        >
-          <FileUp className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Bulk Upload</span>
-        </Button>
-        
-        {userRole === 'super_admin' && (
-          <>
-            <Button
-              variant={activeView === 'tourManagement' ? 'default' : 'ghost'} 
-              className={`w-full justify-start ${activeView === 'tourManagement' ? 'bg-gradient-to-r from-blue-500/80 to-blue-500/80 hover:from-blue-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-              onClick={() => handleSetView('tourManagement')}
+
+      {/* Navigation */}
+      <nav className="flex-1 py-4">
+        <ul className="space-y-1 px-2">
+          <li>
+            <button
+              onClick={() => handleNavClick('dashboard')}
+              className={cn(
+                "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                activeView === 'dashboard'
+                  ? "bg-blue-600/30 text-blue-200"
+                  : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+              )}
             >
-              <Route className="h-5 w-5 md:mr-2" />
-              <span className="hidden md:inline">Tour Management</span>
-            </Button>
-            
-            <Button
-              variant={activeView === 'itineraryManagement' ? 'default' : 'ghost'} 
-              className={`w-full justify-start ${activeView === 'itineraryManagement' ? 'bg-gradient-to-r from-blue-500/80 to-blue-500/80 hover:from-blue-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-              onClick={() => handleSetView('itineraryManagement')}
+              <Bus className="h-5 w-5" />
+              <span className="hidden md:block ml-3">Buses</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              onClick={() => handleNavClick('etaTracker')}
+              className={cn(
+                "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                activeView === 'etaTracker'
+                  ? "bg-blue-600/30 text-blue-200"
+                  : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+              )}
             >
-              <Calendar className="h-5 w-5 md:mr-2" />
-              <span className="hidden md:inline">Itinerary Management</span>
-            </Button>
-          </>
-        )}
+              <Clock className="h-5 w-5" />
+              <span className="hidden md:block ml-3">ETA Tracker</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              onClick={() => handleNavClick('destination')}
+              className={cn(
+                "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                activeView === 'destination'
+                  ? "bg-blue-600/30 text-blue-200"
+                  : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+              )}
+            >
+              <MapPin className="h-5 w-5" />
+              <span className="hidden md:block ml-3">Destinations</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              onClick={() => handleNavClick('addBus')}
+              className={cn(
+                "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                activeView === 'addBus'
+                  ? "bg-blue-600/30 text-blue-200"
+                  : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+              )}
+            >
+              <PlusCircle className="h-5 w-5" />
+              <span className="hidden md:block ml-3">Add Bus</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              onClick={() => handleNavClick('notifications')}
+              className={cn(
+                "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                activeView === 'notifications'
+                  ? "bg-blue-600/30 text-blue-200"
+                  : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+              )}
+            >
+              <Bell className="h-5 w-5" />
+              <span className="hidden md:block ml-3">Notifications</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              onClick={() => handleNavClick('bulkUpload')}
+              className={cn(
+                "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                activeView === 'bulkUpload'
+                  ? "bg-blue-600/30 text-blue-200"
+                  : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+              )}
+            >
+              <Upload className="h-5 w-5" />
+              <span className="hidden md:block ml-3">Bulk Upload</span>
+            </button>
+          </li>
+
+          {userRole === 'super_admin' && (
+            <li>
+              <button
+                onClick={() => handleNavClick('userManagement')}
+                className={cn(
+                  "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                  activeView === 'userManagement'
+                    ? "bg-blue-600/30 text-blue-200"
+                    : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+                )}
+              >
+                <Users className="h-5 w-5" />
+                <span className="hidden md:block ml-3">User Management</span>
+              </button>
+            </li>
+          )}
+
+          {userRole === 'super_admin' && (
+            <li>
+              <button
+                onClick={() => handleNavClick('tourManagement')}
+                className={cn(
+                  "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                  activeView === 'tourManagement'
+                    ? "bg-blue-600/30 text-blue-200"
+                    : "text-gray-400 hover:bg-white/5 hover:text-blue-300"
+                )}
+              >
+                <Route className="h-5 w-5" />
+                <span className="hidden md:block ml-3">Tour Management</span>
+              </button>
+            </li>
+          )}
+
+          {userRole === 'super_admin' && (
+            <li>
+              <Link 
+                to="/itinerary"
+                className={cn(
+                  "flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg transition-colors",
+                  "bg-gradient-to-r from-blue-600/30 to-indigo-600/30 text-blue-200 hover:from-blue-600/40 hover:to-indigo-600/40"
+                )}
+              >
+                <CalendarDays className="h-5 w-5" />
+                <span className="hidden md:block ml-3">Enhanced Itinerary</span>
+              </Link>
+            </li>
+          )}
+        </ul>
       </nav>
-      
+
+      {/* Logout */}
       <div className="p-4 border-t border-white/10">
-        <div className="hidden md:block text-xs text-gray-400 mb-2">
-          Logged in as: {user?.email}
-          <div className="text-xs opacity-70">{userRole === 'super_admin' ? 'Super Admin' : 'Tour Manager'}</div>
-        </div>
-        <Button 
+        <button
           onClick={handleLogout}
-          variant="ghost" 
-          className="w-full justify-start text-gray-300 hover:text-white hover:bg-red-900/30"
+          className="flex items-center justify-center md:justify-start w-full p-2 md:px-4 rounded-lg text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-colors"
         >
-          <LogOut className="h-5 w-5 md:mr-2" />
-          <span className="hidden md:inline">Logout</span>
-        </Button>
+          <LogOut className="h-5 w-5" />
+          <span className="hidden md:block ml-3">Logout</span>
+        </button>
       </div>
-    </aside>
+    </div>
   );
 };
 
