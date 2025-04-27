@@ -16,4 +16,19 @@ export interface Tour {
   endDate: string;
   managerId: string | null;
   itinerary: TourItinerary[];
+  managers?: string[];
+}
+
+export interface TourManager {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  isAvailable: boolean;
+}
+
+export interface Destination {
+  id: string;
+  name: string;
+  description: string;
 }

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
@@ -12,7 +13,8 @@ import {
   Plus,
   UserPlus,
   Home,
-  Route
+  Route,
+  Calendar
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -110,14 +112,25 @@ const Sidebar = () => {
         </Button>
         
         {userRole === 'super_admin' && (
-          <Button
-            variant={activeView === 'tourManagement' ? 'default' : 'ghost'} 
-            className={`w-full justify-start ${activeView === 'tourManagement' ? 'bg-gradient-to-r from-blue-500/80 to-blue-500/80 hover:from-blue-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-            onClick={() => handleSetView('tourManagement')}
-          >
-            <Route className="h-5 w-5 md:mr-2" />
-            <span className="hidden md:inline">Tour Management</span>
-          </Button>
+          <>
+            <Button
+              variant={activeView === 'tourManagement' ? 'default' : 'ghost'} 
+              className={`w-full justify-start ${activeView === 'tourManagement' ? 'bg-gradient-to-r from-blue-500/80 to-blue-500/80 hover:from-blue-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+              onClick={() => handleSetView('tourManagement')}
+            >
+              <Route className="h-5 w-5 md:mr-2" />
+              <span className="hidden md:inline">Tour Management</span>
+            </Button>
+            
+            <Button
+              variant={activeView === 'itineraryManagement' ? 'default' : 'ghost'} 
+              className={`w-full justify-start ${activeView === 'itineraryManagement' ? 'bg-gradient-to-r from-blue-500/80 to-blue-500/80 hover:from-blue-500 hover:to-blue-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+              onClick={() => handleSetView('itineraryManagement')}
+            >
+              <Calendar className="h-5 w-5 md:mr-2" />
+              <span className="hidden md:inline">Itinerary Management</span>
+            </Button>
+          </>
         )}
       </nav>
       
