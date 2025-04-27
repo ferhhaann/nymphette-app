@@ -1,20 +1,19 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Tour, TourItinerary } from '@/types/tour';
+import { useAppContext } from '@/context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Plus, Route, Calendar, UserPlus } from 'lucide-react';
 
-// Mock data - in a real app this would come from your backend
 const MOCK_TOURS: Tour[] = [];
 
 const TourManagement = () => {
   const { user, userRole } = useAuth();
+  const { setActiveView } = useAppContext();
   const [tours, setTours] = useState<Tour[]>(MOCK_TOURS);
   const [newTour, setNewTour] = useState({
     name: '',
@@ -44,6 +43,18 @@ const TourManagement = () => {
     });
     setShowForm(false);
     toast.success('Tour created successfully');
+  };
+
+  const handleManageItinerary = (tour: Tour) => {
+    localStorage.setItem('selectedTourForItinerary', JSON.stringify(tour));
+    setActiveView('itineraryManagement');
+    toast.info('Redirecting to Itinerary Management...');
+  };
+
+  const handleAssignManager = (tour: Tour) => {
+    localStorage.setItem('selectedTourForItinerary', JSON.stringify(tour));
+    setActiveView('itineraryManagement');
+    toast.info('Redirecting to Manager Assignment...');
   };
 
   if (userRole !== 'super_admin') {
@@ -172,14 +183,14 @@ const TourManagement = () => {
                   <Button
                     variant="outline"
                     className="flex-1 bg-white/5 border-white/10 hover:bg-white/10 text-white"
-                    onClick={() => toast.info('Itinerary management coming soon')}
+                    onClick={() => handleManageItinerary(tour)}
                   >
                     <Route className="mr-2 h-4 w-4" /> Manage Itinerary
                   </Button>
                   <Button
                     variant="outline"
                     className="flex-1 bg-white/5 border-white/10 hover:bg-white/10 text-white"
-                    onClick={() => toast.info('Manager assignment coming soon')}
+                    onClick={() => handleAssignManager(tour)}
                   >
                     <UserPlus className="mr-2 h-4 w-4" /> Assign Manager
                   </Button>

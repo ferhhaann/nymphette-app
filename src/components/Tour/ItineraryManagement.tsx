@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Tour, TourItinerary, TourManager, Destination } from '@/types/tour';
@@ -31,7 +30,6 @@ import {
   Users 
 } from 'lucide-react';
 
-// Mock data - in a real app this would come from your backend
 const MOCK_TOURS: Tour[] = [
   {
     id: '1',
@@ -110,7 +108,16 @@ const ItineraryManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedTourId, setSelectedTourId] = useState<string | null>(null);
 
-  // Form setup with react-hook-form
+  useEffect(() => {
+    const selectedTour = localStorage.getItem('selectedTourForItinerary');
+    if (selectedTour) {
+      const tour = JSON.parse(selectedTour);
+      setEditingTour(tour);
+      setShowForm(true);
+      localStorage.removeItem('selectedTourForItinerary');
+    }
+  }, []);
+
   const form = useForm({
     defaultValues: {
       name: '',
@@ -122,13 +129,11 @@ const ItineraryManagement = () => {
     }
   });
 
-  // Setup field array for itinerary items
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "itinerary"
   });
 
-  // When editing a tour, populate the form
   useEffect(() => {
     if (editingTour) {
       form.reset({
@@ -176,7 +181,6 @@ const ItineraryManagement = () => {
 
   const handleSubmit = form.handleSubmit((data) => {
     if (editingTour) {
-      // Update existing tour
       const updatedTour: Tour = {
         ...editingTour,
         name: data.name,
@@ -190,7 +194,6 @@ const ItineraryManagement = () => {
       setTours(tours.map(t => t.id === editingTour.id ? updatedTour : t));
       toast.success('Tour updated successfully');
     } else {
-      // Create new tour
       const newTour: Tour = {
         id: (tours.length + 1).toString(),
         name: data.name,
