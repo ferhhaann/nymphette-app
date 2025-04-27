@@ -37,81 +37,34 @@ const MOCK_TOURS: Tour[] = [
     description: 'Experience the wonders of Dubai in this 5-day tour',
     startDate: '2025-11-15',
     endDate: '2025-11-20',
-    mainLocation: 'Dubai',
     managerId: null,
     managers: ['1', '2'],
     itinerary: [
       {
         id: '1',
         dayNumber: 1,
-        date: '2025-11-15',
         location: 'Burj Khalifa',
         description: 'Visit tallest building in the world',
-        morningActivity: 'Visit Burj Khalifa',
-        afternoonActivity: 'Shopping at Dubai Mall',
-        eveningActivity: 'Light show',
-        lunchPlace: 'Dubai Mall Food Court',
-        dinnerPlace: 'Arabian Nights Restaurant',
-        mealsIncluded: {
-          breakfast: true,
-          lunch: true,
-          dinner: false
-        },
-        pickupTime: '08:00',
-        dropTime: '19:00',
-        locationsVisited: ['Burj Khalifa', 'Dubai Mall'],
         startTime: '09:00',
         endTime: '11:00'
       },
       {
         id: '2',
         dayNumber: 1,
-        date: '2025-11-15',
         location: 'Dubai Mall',
         description: 'Lunch and shopping break',
-        morningActivity: '',
-        afternoonActivity: 'Shopping',
-        eveningActivity: '',
-        lunchPlace: 'Food Court',
-        dinnerPlace: '',
-        mealsIncluded: {
-          breakfast: false,
-          lunch: true,
-          dinner: false
-        },
-        pickupTime: '11:30',
-        dropTime: '14:30',
-        locationsVisited: ['Dubai Mall'],
         startTime: '12:00',
         endTime: '14:30'
       },
       {
         id: '3',
         dayNumber: 2,
-        date: '2025-11-16',
         location: 'Desert Safari',
         description: 'Dune bashing and entertainment show',
-        morningActivity: '',
-        afternoonActivity: 'Dune bashing',
-        eveningActivity: 'Entertainment show',
-        lunchPlace: '',
-        dinnerPlace: 'Desert Camp',
-        mealsIncluded: {
-          breakfast: true,
-          lunch: false,
-          dinner: true
-        },
-        pickupTime: '14:00',
-        dropTime: '20:00',
-        locationsVisited: ['Arabian Desert'],
         startTime: '15:00',
         endTime: '19:00'
       }
-    ],
-    flights: [],
-    hotels: [],
-    travelNotes: [],
-    status: 'upcoming'
+    ]
   }
 ];
 
@@ -171,7 +124,6 @@ const ItineraryManagement = () => {
       description: '',
       startDate: '',
       endDate: '',
-      mainLocation: '',
       managers: [] as string[],
       itinerary: [] as any[]
     }
@@ -189,7 +141,6 @@ const ItineraryManagement = () => {
         description: editingTour.description,
         startDate: editingTour.startDate,
         endDate: editingTour.endDate,
-        mainLocation: editingTour.mainLocation || '',
         managers: editingTour.managers || [],
         itinerary: editingTour.itinerary.map(item => ({
           id: item.id,
@@ -211,7 +162,6 @@ const ItineraryManagement = () => {
       description: '',
       startDate: '',
       endDate: '',
-      mainLocation: '',
       managers: [],
       itinerary: []
     });
@@ -221,7 +171,7 @@ const ItineraryManagement = () => {
   const handleAddItineraryItem = () => {
     append({
       id: `temp-${fields.length}`,
-      dayNumber: fields.length > 0 ? fields[fields.length - 1].dayNumber + 1 : 1,
+      dayNumber: fields.length > 0 ? fields[fields.length - 1].dayNumber : 1,
       location: '',
       description: '',
       startTime: '',
@@ -237,7 +187,6 @@ const ItineraryManagement = () => {
         description: data.description,
         startDate: data.startDate,
         endDate: data.endDate,
-        mainLocation: data.mainLocation,
         managers: data.managers,
         itinerary: data.itinerary
       };
@@ -251,17 +200,12 @@ const ItineraryManagement = () => {
         description: data.description,
         startDate: data.startDate,
         endDate: data.endDate,
-        mainLocation: data.mainLocation,
         managerId: null,
         managers: data.managers,
         itinerary: data.itinerary.map((item, index) => ({
           ...item,
           id: `new-${index}`
-        })),
-        flights: [],
-        hotels: [],
-        travelNotes: [],
-        status: 'upcoming'
+        }))
       };
       
       setTours([...tours, newTour]);
@@ -402,24 +346,6 @@ const ItineraryManagement = () => {
                         <Textarea 
                           placeholder="Enter details about the tour" 
                           className="bg-white/5 border-white/10 text-white min-h-[100px]"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="mainLocation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-300">Main Location</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="E.g. Dubai" 
-                          className="bg-white/5 border-white/10 text-white"
                           {...field} 
                         />
                       </FormControl>

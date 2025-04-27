@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Tour, TourItinerary, TourManager, Destination } from '@/types/tour';
@@ -81,7 +82,6 @@ const TourManagement = () => {
       description: '',
       startDate: '',
       endDate: '',
-      mainLocation: '',
       managers: [] as string[],
       itinerary: [] as any[]
     }
@@ -99,7 +99,6 @@ const TourManagement = () => {
         description: editingTour.description,
         startDate: editingTour.startDate,
         endDate: editingTour.endDate,
-        mainLocation: editingTour.mainLocation || '',
         managers: editingTour.managers || [],
         itinerary: editingTour.itinerary.map(item => ({
           id: item.id,
@@ -121,7 +120,6 @@ const TourManagement = () => {
       description: '',
       startDate: '',
       endDate: '',
-      mainLocation: '',
       managers: [],
       itinerary: []
     });
@@ -131,7 +129,7 @@ const TourManagement = () => {
   const handleAddItineraryItem = () => {
     append({
       id: `temp-${fields.length}`,
-      dayNumber: fields.length > 0 ? fields[fields.length - 1].dayNumber + 1 : 1,
+      dayNumber: fields.length > 0 ? fields[fields.length - 1].dayNumber : 1,
       location: '',
       description: '',
       startTime: '',
@@ -147,7 +145,6 @@ const TourManagement = () => {
         description: data.description,
         startDate: data.startDate,
         endDate: data.endDate,
-        mainLocation: data.mainLocation,
         managers: data.managers,
         itinerary: data.itinerary
       };
@@ -161,17 +158,12 @@ const TourManagement = () => {
         description: data.description,
         startDate: data.startDate,
         endDate: data.endDate,
-        mainLocation: data.mainLocation,
         managerId: null,
         managers: data.managers,
         itinerary: data.itinerary.map((item, index) => ({
           ...item,
           id: `new-${index}`
-        })),
-        flights: [],
-        hotels: [],
-        travelNotes: [],
-        status: 'upcoming'
+        }))
       };
       
       setTours([...tours, newTour]);
@@ -263,61 +255,43 @@ const TourManagement = () => {
                     )}
                   />
                   
-                  <FormField
-                    control={form.control}
-                    name="mainLocation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-300">Main Location</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="E.g. Dubai" 
-                            className="bg-white/5 border-white/10 text-white"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-300">Start Date</FormLabel>
-                        <FormControl>
-                          <Input 
-                            type="date" 
-                            className="bg-white/5 border-white/10 text-white"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="endDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-300">End Date</FormLabel>
-                        <FormControl>
-                          <Input 
-                            type="date" 
-                            className="bg-white/5 border-white/10 text-white"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-300">Start Date</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="date" 
+                              className="bg-white/5 border-white/10 text-white"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="endDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-300">End Date</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="date" 
+                              className="bg-white/5 border-white/10 text-white"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
                 
                 <FormField
