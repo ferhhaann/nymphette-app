@@ -18,6 +18,9 @@ export interface TourItinerary {
   pickupTime: string;
   dropTime: string;
   locationsVisited: string[];
+  // Adding the missing properties causing TypeScript errors
+  startTime?: string;
+  endTime?: string;
 }
 
 export interface Flight {
