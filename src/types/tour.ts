@@ -2,22 +2,24 @@
 export interface TourItinerary {
   id: string;
   dayNumber: number;
-  date: string;
+  date?: string;
   location: string;
   description: string;
-  morningActivity: string;
-  afternoonActivity: string;
-  eveningActivity: string;
-  lunchPlace: string;
-  dinnerPlace: string;
-  mealsIncluded: {
+  morningActivity?: string;
+  afternoonActivity?: string;
+  eveningActivity?: string;
+  lunchPlace?: string;
+  dinnerPlace?: string;
+  mealsIncluded?: {
     breakfast: boolean;
     lunch: boolean;
     dinner: boolean;
   };
-  pickupTime: string;
-  dropTime: string;
-  locationsVisited: string[];
+  pickupTime?: string;
+  dropTime?: string;
+  locationsVisited?: string[];
+  startTime: string;
+  endTime: string;
 }
 
 export interface Flight {

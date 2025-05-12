@@ -69,13 +69,13 @@ const TourManagement = () => {
   const { user, userRole } = useAuth();
   const { 
     setActiveView, 
-    tours, 
+    tours: appTours, 
     saveTour, 
     deleteTour,
     activeTourId,
     setActiveTourId
   } = useAppContext();
-  const [tours, setTours] = useState<Tour[]>(MOCK_TOURS);
+  
   const [managers, setManagers] = useState<TourManager[]>(MOCK_MANAGERS);
   const [destinations, setDestinations] = useState<Destination[]>(MOCK_DESTINATIONS);
   const [showForm, setShowForm] = useState(false);
@@ -88,6 +88,7 @@ const TourManagement = () => {
       description: '',
       startDate: '',
       endDate: '',
+      mainLocation: '',
       managers: [] as string[],
       itinerary: [] as any[]
     }
@@ -166,7 +167,7 @@ const TourManagement = () => {
       setActiveTourId(updatedTour.id);
     } else {
       const newTour: Tour = {
-        id: (tours.length + 1).toString(),
+        id: (appTours.length + 1).toString(),
         name: data.name,
         description: data.description,
         startDate: data.startDate,
@@ -568,7 +569,7 @@ const TourManagement = () => {
         </Card>
       ) : (
         <div className="space-y-6">
-          {tours.length === 0 ? (
+          {appTours.length === 0 ? (
             <div className="rounded-lg backdrop-blur-lg bg-white/5 border border-white/10 p-12 text-center">
               <Route className="mx-auto h-12 w-12 text-blue-400 mb-3" />
               <h3 className="text-xl font-medium text-blue-100">No Tours Created Yet</h3>
@@ -584,7 +585,7 @@ const TourManagement = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">
-              {tours.map(tour => (
+              {appTours.map(tour => (
                 <Card 
                   key={tour.id} 
                   className={`backdrop-blur-lg bg-white/5 border ${selectedTourId === tour.id ? 'border-blue-500/50' : 'border-white/10'} transition-all hover:border-blue-500/30`}
