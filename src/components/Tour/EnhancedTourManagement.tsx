@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Tour, TourItinerary, TourManager, Flight, Hotel, TravelNote } from '@/types/tour';
@@ -944,4 +945,114 @@ const EnhancedTourManagement = () => {
                       </Button>
                     </div>
                     
-                    <
+                    <div className="mt-3 space-y-4">
+                      {/* Add itinerary management content here */}
+                      <p className="text-blue-200">Itinerary content will be added here</p>
+                    </div>
+                  </TabsContent>
+
+                  {/* Managers Tab */}
+                  <TabsContent value="managers" className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-medium text-blue-100">Tour Managers</h3>
+                    </div>
+                    
+                    <FormField
+                      control={form.control}
+                      name="managers"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="space-y-2">
+                            {managers.map(manager => (
+                              <div key={manager.id} className="flex items-center space-x-2">
+                                <input 
+                                  type="checkbox"
+                                  id={`manager-${manager.id}`}
+                                  value={manager.id}
+                                  checked={(field.value || []).includes(manager.id)}
+                                  onChange={(e) => {
+                                    const value = [...(field.value || [])];
+                                    if (e.target.checked) {
+                                      value.push(manager.id);
+                                    } else {
+                                      const idx = value.indexOf(manager.id);
+                                      if (idx !== -1) value.splice(idx, 1);
+                                    }
+                                    field.onChange(value);
+                                  }}
+                                  className="rounded bg-white/5 border-white/10 text-blue-500"
+                                />
+                                <label 
+                                  htmlFor={`manager-${manager.id}`}
+                                  className="text-gray-300 flex items-center"
+                                >
+                                  <span>{manager.name}</span>
+                                  <Badge 
+                                    variant="outline" 
+                                    className={`ml-2 ${manager.isAvailable ? 'bg-green-900/20 text-green-400' : 'bg-red-900/20 text-red-400'}`}
+                                  >
+                                    {manager.isAvailable ? 'Available' : 'Unavailable'}
+                                  </Badge>
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </TabsContent>
+
+                  {/* Travel Notes Tab */}
+                  <TabsContent value="notes" className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-medium text-blue-100">Travel Notes</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={handleAddTravelNote}
+                        className="bg-white/5 border-white/10 hover:bg-white/10 text-white"
+                      >
+                        <Plus className="h-4 w-4 mr-1" /> Add Note
+                      </Button>
+                    </div>
+                    
+                    <div className="mt-3 space-y-4">
+                      {/* Add travel notes content here */}
+                      <p className="text-blue-200">Travel notes content will be added here</p>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+                
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500"
+                  >
+                    <Route className="mr-2 h-4 w-4" /> 
+                    {editingTour ? 'Update Itinerary' : 'Create Itinerary'}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingTour(null);
+                    }}
+                    className="bg-white/5 border-white/10 hover:bg-white/10 text-white"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      ) : (
+        <div>Tour list will be displayed here</div>
+      )}
+    </div>
+  );
+};
+
+export default EnhancedTourManagement;
