@@ -4,6 +4,7 @@ import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '@/lib/utils';
 import { Link, useNavigate } from 'react-router-dom';
+import TourSelector from '../Tour/TourSelector';
 import {
   Bus,
   Clock,
@@ -40,6 +41,13 @@ const Sidebar = () => {
           TourMaster
         </span>
       </div>
+
+      {/* Tour Selector - Only show for admins */}
+      {userRole === 'super_admin' && (
+        <div className="px-3 py-2 hidden md:block">
+          <TourSelector />
+        </div>
+      )}
 
       {/* Navigation */}
       <nav className="flex-1 py-4">

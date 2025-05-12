@@ -15,16 +15,20 @@ import { Bus } from '../data/mockData';
 import { useAuth } from '../context/AuthContext';
 import TourManagement from '../components/Tour/TourManagement';
 import ItineraryManagement from '../components/Tour/ItineraryManagement';
+import TourSelector from '../components/Tour/TourSelector';
 
 const Index = () => {
   const { 
     activeView, 
     setActiveView, 
-    setSelectedBus 
+    setSelectedBus,
+    activeTourId,
+    getActiveTour 
   } = useAppContext();
   
-  const { user, loading } = useAuth();
+  const { user, loading, userRole } = useAuth();
   const navigate = useNavigate();
+  const activeTour = getActiveTour();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -50,10 +54,24 @@ const Index = () => {
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         <div className="container mx-auto p-6">
+          {/* Mobile tour selector visible only in mobile view */}
+          {userRole === 'super_admin' && (
+            <div className="md:hidden mb-6">
+              <TourSelector />
+            </div>
+          )}
+
+          {/* Display active tour context */}
+          {activeTourId && activeTour && (
+            <div className="bg-blue-600/20 border border-blue-500/30 rounded-lg p-3 mb-6 text-sm md:hidden">
+              <p className="text-blue-300">Currently managing: <span className="font-semibold">{activeTour.name}</span></p>
+            </div>
+          )}
+
           {activeView === 'dashboard' && (
             <div className="backdrop-blur-lg bg-white/5 rounded-xl border border-white/10 p-6 shadow-xl">
               <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-100 via-purple-200 to-blue-100 bg-clip-text text-transparent">
-                Tour Dashboard
+                {activeTour ? `${activeTour.name} Dashboard` : 'Tour Dashboard'}
               </h1>
               <BusList onSelectBus={handleSelectBus} />
             </div>

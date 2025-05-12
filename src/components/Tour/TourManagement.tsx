@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Tour, TourItinerary, TourManager, Destination } from '@/types/tour';
@@ -68,7 +67,14 @@ const MOCK_DESTINATIONS: Destination[] = [
 
 const TourManagement = () => {
   const { user, userRole } = useAuth();
-  const { setActiveView } = useAppContext();
+  const { 
+    setActiveView, 
+    tours, 
+    saveTour, 
+    deleteTour,
+    activeTourId,
+    setActiveTourId
+  } = useAppContext();
   const [tours, setTours] = useState<Tour[]>(MOCK_TOURS);
   const [managers, setManagers] = useState<TourManager[]>(MOCK_MANAGERS);
   const [destinations, setDestinations] = useState<Destination[]>(MOCK_DESTINATIONS);
@@ -99,6 +105,7 @@ const TourManagement = () => {
         description: editingTour.description,
         startDate: editingTour.startDate,
         endDate: editingTour.endDate,
+        mainLocation: editingTour.mainLocation,
         managers: editingTour.managers || [],
         itinerary: editingTour.itinerary.map(item => ({
           id: item.id,
@@ -120,6 +127,7 @@ const TourManagement = () => {
       description: '',
       startDate: '',
       endDate: '',
+      mainLocation: '',
       managers: [],
       itinerary: []
     });
@@ -145,12 +153,17 @@ const TourManagement = () => {
         description: data.description,
         startDate: data.startDate,
         endDate: data.endDate,
+        mainLocation: data.mainLocation || editingTour.mainLocation,
         managers: data.managers,
-        itinerary: data.itinerary
+        itinerary: data.itinerary,
+        flights: editingTour.flights || [],
+        hotels: editingTour.hotels || [],
+        travelNotes: editingTour.travelNotes || [],
+        status: editingTour.status || 'upcoming'
       };
       
-      setTours(tours.map(t => t.id === editingTour.id ? updatedTour : t));
-      toast.success('Tour updated successfully');
+      saveTour(updatedTour);
+      setActiveTourId(updatedTour.id);
     } else {
       const newTour: Tour = {
         id: (tours.length + 1).toString(),
@@ -158,16 +171,21 @@ const TourManagement = () => {
         description: data.description,
         startDate: data.startDate,
         endDate: data.endDate,
+        mainLocation: data.mainLocation || 'Not specified',
         managerId: null,
         managers: data.managers,
         itinerary: data.itinerary.map((item, index) => ({
           ...item,
           id: `new-${index}`
-        }))
+        })),
+        flights: [],
+        hotels: [],
+        travelNotes: [],
+        status: 'upcoming'
       };
       
-      setTours([...tours, newTour]);
-      toast.success('Tour created successfully');
+      saveTour(newTour);
+      setActiveTourId(newTour.id);
     }
     
     setShowForm(false);
@@ -175,12 +193,12 @@ const TourManagement = () => {
   });
 
   const handleEditTour = (tour: Tour) => {
+    setActiveTourId(tour.id);
     setEditingTour(tour);
   };
 
   const handleDeleteTour = (tourId: string) => {
-    setTours(tours.filter(t => t.id !== tourId));
-    toast.success('Tour deleted successfully');
+    deleteTour(tourId);
   };
 
   const handleSelectTour = (tourId: string) => {
@@ -304,6 +322,24 @@ const TourManagement = () => {
                         <Textarea 
                           placeholder="Enter details about the tour" 
                           className="bg-white/5 border-white/10 text-white min-h-[100px]"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="mainLocation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-300">Main Location/Country</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="E.g. Dubai, UAE" 
+                          className="bg-white/5 border-white/10 text-white"
                           {...field} 
                         />
                       </FormControl>
