@@ -1,3 +1,4 @@
+
 import { Tour } from '@/types/tour';
 
 export const mockTours: Tour[] = [
@@ -95,7 +96,9 @@ export const mockTours: Tour[] = [
         },
         pickupTime: '09:00',
         dropTime: '21:00',
-        locationsVisited: ['Dubai Mall', 'Burj Khalifa', 'Dubai Fountain']
+        locationsVisited: ['Dubai Mall', 'Burj Khalifa', 'Dubai Fountain'],
+        startTime: '09:00',
+        endTime: '21:00'
       },
       {
         id: 'day2',
@@ -115,7 +118,9 @@ export const mockTours: Tour[] = [
         },
         pickupTime: '08:00',
         dropTime: '22:00',
-        locationsVisited: ['Desert Conservation Reserve', 'Bedouin Camp']
+        locationsVisited: ['Desert Conservation Reserve', 'Bedouin Camp'],
+        startTime: '08:00',
+        endTime: '22:00'
       }
     ],
     hotels: [
