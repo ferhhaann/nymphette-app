@@ -61,7 +61,7 @@ const TourSelector = () => {
           onValueChange={(value) => setActiveTourId(value)}
         >
           <SelectTrigger className="bg-white/10 border-white/10 text-white h-9">
-            <SelectValue placeholder="Select a tour" className="text-white" />
+            <SelectValue placeholder="Select a tour" className="text-white truncate" />
           </SelectTrigger>
           <SelectContent className="bg-navy-900 border-white/10">
             {tours.map((tour) => (
