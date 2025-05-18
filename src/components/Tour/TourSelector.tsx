@@ -60,14 +60,14 @@ const TourSelector = () => {
           value={activeTourId || ''}
           onValueChange={(value) => setActiveTourId(value)}
         >
-          <SelectTrigger className="bg-white/10 border-white/10 text-white h-9">
-            <SelectValue placeholder="Select a tour" className="text-white truncate" />
+          <SelectTrigger className="bg-white/10 border-white/10 text-white h-9 overflow-hidden">
+            <SelectValue placeholder="Select a tour" className="text-white truncate max-w-full" />
           </SelectTrigger>
           <SelectContent className="bg-navy-900 border-white/10">
             {tours.map((tour) => (
               <SelectItem key={tour.id} value={tour.id} className="text-white hover:bg-white/10">
                 <div className="flex items-center">
-                  <span className="font-medium">{tour.name}</span>
+                  <span className="font-medium truncate max-w-[150px]">{tour.name}</span>
                   <Badge 
                     className={`ml-2 ${
                       getTourStatus(tour) === 'upcoming' ? 'bg-blue-700/50 text-blue-300' : 
@@ -93,7 +93,7 @@ const TourSelector = () => {
               </div>
               <div className="flex items-center text-blue-300">
                 <MapPin className="h-3.5 w-3.5 mr-1.5 opacity-70" />
-                {activeTour.mainLocation || 'No location set'}
+                <span className="truncate">{activeTour.mainLocation || 'No location set'}</span>
               </div>
               <div className="text-gray-400 text-xs">
                 Tour ID: {activeTour.id}
